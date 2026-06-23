@@ -4,54 +4,74 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Koleksi Dr. Pinguin Bokep, M.S.B. | Video Bokep Indo Terbaru HD</title>
-  <meta name="description" content="Koleksi Dr. Pinguin Bokep, M.S.B. - Ribuan video bokep IndoAV & UserBokep terbaru HD gratis. Jilbab, Tante, ABG, Chindo, dan ribuan konten viral lainnya.">
-  <meta name="keywords" content="bokep indo, bokep jilbab, indoav, userbokep, bokep terbaru, bokep hd, koleksi dr pinguin">
+  <meta name="description" content="Koleksi Dr. Pinguin Bokep, M.S.B. - Ribuan video bokep IndoAV & UserBokep terbaru HD gratis.">
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
   <style>
     .card { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
     .card:hover { transform: translateY(-6px) scale(1.02); }
+    .play-btn { transition: all 0.2s; }
+    .card:hover .play-btn { transform: scale(1.1); }
   </style>
 </head>
 <body class="bg-zinc-950 text-white">
-  <div class="max-w-7xl mx-auto p-4">
+  <div class="max-w-7xl mx-auto p-4 md:p-8">
+    <!-- Header -->
     <div class="flex items-center gap-4 mb-8">
-      <img src="https://i.imgur.com/0zqKzqK.png" alt="Dr. Pinguin Logo" class="w-14 h-14">
+      <img src="https://i.imgur.com/0zqKzqK.png" alt="Dr. Pinguin" class="w-16 h-16 rounded-full border border-zinc-700">
       <div>
-        <h1 class="text-3xl font-bold">Koleksi Dr. Pinguin Bokep, M.S.B.</h1>
-        <p class="text-zinc-400">IndoAV & UserBokep Collection</p>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight">Koleksi Dr. Pinguin Bokep, M.S.B.</h1>
+        <p class="text-zinc-400">IndoAV & UserBokep Collection • Ribuan Konten</p>
       </div>
     </div>
 
-    <input id="search" type="text" placeholder="Cari judul video..." class="w-full bg-zinc-900 border border-zinc-700 rounded-3xl px-6 py-4 mb-6">
+    <!-- Search -->
+    <div class="mb-8">
+      <input id="search" type="text" placeholder="Cari judul video..." 
+             class="w-full max-w-2xl bg-zinc-900 border border-zinc-700 focus:border-emerald-500 rounded-3xl px-8 py-4 text-lg outline-none">
+    </div>
 
-    <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+    <!-- Grid -->
+    <div id="grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"></div>
   </div>
 
   <script>
     fetch('videos.json').then(r => r.json()).then(videos => {
       const grid = document.getElementById('grid');
-      const render = (filtered) => {
+      const searchInput = document.getElementById('search');
+
+      function render(filtered) {
         grid.innerHTML = filtered.map(v => `
-          <div onclick="window.open('${v.embed}', '_blank')" class="card bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer border border-zinc-800">
-            <div class="relative">
-              <img src="https://picsum.photos/id/${(v.id % 200) + 10}/640/360" class="w-full aspect-video object-cover">
-              <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 hover:opacity-100 transition">
-                <i class="fas fa-play-circle text-6xl text-white"></i>
+          <div onclick="window.open('${v.embed}', '_blank')" class="card bg-zinc-900 rounded-3xl overflow-hidden cursor-pointer border border-zinc-800 group">
+            <div class="relative aspect-video bg-black">
+              <img src="https://picsum.photos/id/${(v.id % 200) + 10}/640/360" 
+                   class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" alt="${v.title}">
+              <div class="absolute inset-0 flex items-center justify-center bg-black/40 opacity-0 group-hover:opacity-100 transition">
+                <div class="play-btn w-16 h-16 rounded-full bg-white/90 flex items-center justify-center">
+                  <i class="fas fa-play text-emerald-600 text-3xl ml-1"></i>
+                </div>
               </div>
             </div>
-            <div class="p-4">
-              <div class="font-medium line-clamp-2">${v.title}</div>
-              <div class="text-xs text-emerald-400 mt-2">${v.category} • ${v.source}</div>
-              <button class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 py-3 rounded-2xl text-sm font-semibold">Buka & Tonton Langsung</button>
+            <div class="p-5">
+              <div class="font-semibold line-clamp-2 text-lg leading-tight mb-3">${v.title}</div>
+              <div class="flex items-center justify-between text-sm">
+                <span class="text-emerald-400">${v.category}</span>
+                <span class="text-zinc-400">${v.source}</span>
+              </div>
+              <button class="mt-4 w-full bg-emerald-600 hover:bg-emerald-700 active:bg-emerald-800 py-3.5 rounded-2xl text-sm font-bold tracking-wide transition">
+                Buka & Tonton Langsung
+              </button>
             </div>
           </div>
         `).join('');
-      };
+      }
+
       render(videos);
-      document.getElementById('search').addEventListener('input', e => {
-        const term = e.target.value.toLowerCase();
-        render(videos.filter(v => v.title.toLowerCase().includes(term)));
+
+      searchInput.addEventListener('input', () => {
+        const term = searchInput.value.toLowerCase().trim();
+        const filtered = videos.filter(v => v.title.toLowerCase().includes(term));
+        render(filtered);
       });
     });
   </script>
